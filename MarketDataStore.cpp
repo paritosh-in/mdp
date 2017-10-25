@@ -4,12 +4,20 @@ void MarketDataStore::put(const MarketData& md) {
 	auto it = mdsMap.find(md.getSymbol());
 
 	if (it != mdsMap.end()) {
+		mtx.lock();
+
 		*(it->second) = md;
+
+		mtx.unlock();
 		return;
 	}
 
+	mtx.lock();
+
 	mdsList.push_back(md);
 	mdsMap[md.getSymbol()] = std::prev(mdsList.end());
+
+	mtx.unlock();
 }
 
 MarketData MarketDataStore::get(int symbol) const {
@@ -33,11 +41,15 @@ void MarketDataStore::moveToLast(int symbol) {
 
 	if(it == mdsMap.end())
 		return;
-	
+
+	mtx.lock();
+
 	mdsList.push_back(*(it->second));
 	
 	mdsList.erase(it->second);
 	mdsMap.erase(it);
 
 	mdsMap[symbol] = std::prev(mdsList.end());
+	
+	mtx.unlock();
 }

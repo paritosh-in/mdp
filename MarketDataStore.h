@@ -4,6 +4,7 @@
 #include "MarketData.h"
 
 #include <list>
+#include <mutex>
 #include <unordered_map>
 
 class MarketDataStore {
@@ -13,6 +14,8 @@ class MarketDataStore {
 		
 		std::list<MarketData> mdsList;
 		std::unordered_map<int, MDListIterator> mdsMap;
+
+		std::mutex mtx;
 
 	public:
 		void put(const MarketData& md);

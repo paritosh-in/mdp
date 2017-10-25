@@ -15,8 +15,10 @@ MarketDataPublisher::MarketDataPublisher(Broadcaster& broadcaster,
 }
 
 void MarketDataPublisher::updatePrice(int symbolId, double price, uint64_t secondSinceEpoch) {
+#if DEBUG
 	std::cout << "MarketDataPublisher::updatePrice()" << std::endl;
 	std::cout << symbolId << " | " << price << " | " << secondSinceEpoch << std::endl;
+#endif
 
 	bool shouldPublish = false;
 
@@ -39,9 +41,10 @@ void MarketDataPublisher::updatePrice(int symbolId, double price, uint64_t secon
 }
 
 void MarketDataPublisher::onTimer(uint64_t secondSinceEpoch) {
+#if DEBUG
 	std::cout << "MarketDataPublisher::onTimer()" << std::endl;
 	std::cout << secondSinceEpoch << std::endl;
-
+#endif
 	std::list<MarketData> mdList = mdStore.getFirst(maxSymbolsAtTime);
 
 	std::for_each(mdList.begin(), mdList.end(), [this, secondSinceEpoch](MarketData md) {

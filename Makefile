@@ -20,7 +20,7 @@ MDPThread.o: MDPThread.cpp MDPThread.h
 	$(CC) $(CXXFLAGS) -c MDPThread.cpp 
 
 PricingThread.o: PricingThread.cpp PricingThread.h MDPThread.h
-	$(CC) $(CXXFLAGS) -c PricingThread.cpp
+	$(CC) $(CXXFLAGS) $(CFLAGS) -c PricingThread.cpp
 
 Broadcaster.o: Broadcaster.cpp Broadcaster.h
 	$(CC) $(CXXFLAGS) -c Broadcaster.cpp
@@ -32,4 +32,4 @@ MarketDataStore.o: MarketDataStore.cpp MarketDataStore.h
 	$(CC) $(CXXFLAGS) -c MarketDataStore.cpp
 
 clean :
-	rm MDPThread.o TimerThread.o MarketDataPublisher.o Application.o Broadcaster.o MarketData.o MarketDataStore.o Application
+	rm -rf *.o Application
